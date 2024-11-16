@@ -1,23 +1,26 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lfaria-m <lfaria-m@42lausanne.ch>          +#+  +:+       +#+         #
+#    By: lfaria-m <lfaria-m@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/01 18:17:13 by lfaria-m          #+#    #+#              #
-#    Updated: 2024/11/14 12:44:20 by lfaria-m         ###   ########.fr        #
+#    Updated: 2024/11/16 14:10:47 by lfaria-m         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
-# Program name
-NAME = minitalk
+
+SERVER = server
+CLIENT = client
 
 # Source files
-SRCS = sources/server/server.c sources/client/client.c
+SERVER_SRC = server.c
+CLIENT_SRC = client.c
 
 # Object files
-OBJS = $(SRCS:.c=.o)
+SERVER_OBJ = $(SERVER_SRC:.c=.o)
+CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 
 # Compiler and flags
 CC = cc
@@ -31,10 +34,12 @@ RM = rm -f
 
 LIB_FLAGS = -L $(LIB_DIR) -lft
 
-all: $(NAME)
+all: $(SERVER) $(CLIENT)
 
-$(NAME): $(OBJS) $(LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
+$(SERVER): $(SERVER_OBJ) $(LIB)
+	$(CC) $(CFLAGS) $(SERVER_OBJ) $(LIB_FLAGS) -o $(SERVER)
+$(CLIENT): $(CLIENT_OBJ) $(LIB)
+	$(CC) $(CFLAGS) $(CLIENT_OBJ) $(LIB_FLAGS) -o $(CLIENT)
 
 %.o: %.c 
 	$(CC) $(CFLAGS) -I$(LIB_DIR) -c $< -o $@
@@ -43,12 +48,12 @@ $(LIB):
 	make -C $(LIB_DIR)
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(SERVER_OBJ) $(CLIENT_OBJ)
 	make -C $(LIB_DIR) clean
 
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(SERVER) $(CLIENT)
 	make -C $(LIB_DIR) fclean
 
 re: fclean all
