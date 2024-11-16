@@ -1,20 +1,20 @@
-# **************************************************************************** #
+#******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lfaria-m <lfaria-m@student.42.fr>          +#+  +:+       +#+         #
+#    By: lfaria-m <lfaria-m@42lausanne.ch>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/01 18:17:13 by lfaria-m          #+#    #+#              #
-#    Updated: 2024/11/13 16:47:01 by lfaria-m         ###   ########.fr        #
+#    Updated: 2024/11/14 12:44:20 by lfaria-m         ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
+#******************************************************************************#
 
 # Program name
 NAME = minitalk
 
 # Source files
-SRCS = sources/server.c sources/client.c
+SRCS = sources/server/server.c sources/client/client.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
