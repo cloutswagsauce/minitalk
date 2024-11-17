@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfaria-m <lfaria-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lfaria-m <lfaria-m@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:41:22 by lfaria-m          #+#    #+#             */
-/*   Updated: 2024/11/16 17:47:16 by lfaria-m         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:32:03 by lfaria-m         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../minitalk.h"
 #include <unistd.h>
@@ -16,24 +16,23 @@
 #include <signal.h>
 #include <stdlib.h>
 
-void str_to_bin(char *str, int pid)
+void	str_to_bin(char *str, int pid)
 {
-	int	i;
-
+	int		i;
+	char	c;
 
 	while (*str)
 	{
-		i = 0;
-		while (i < 8)
+		i = 8;
+		c = *str++;
+		while (i--)
 		{
-			if (*str & (1 << i))
+			if (c >> i & 1)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			i++;
+			usleep(1000);
 		}
-		usleep(100); // Small delay to ensure the server can process the signal
-		str++;
 	}
 	i = 8;
 	while (i--)
@@ -42,15 +41,17 @@ void str_to_bin(char *str, int pid)
 		usleep(100);
 	}
 }
-int main(int argc, char **argv)
+
+int	main(int argc, char **argv)
 {
-	int server_pid;
+	int	server_pid;
+
 	if (argc != 3)
 	{
-		write(1, "specify string", 14);
+		write(1, "invalid args", 12);
+		return (0);
 	}
 	server_pid = atoi(argv[1]);
 	str_to_bin(argv[2], server_pid);
 	return (0);
-
 }
