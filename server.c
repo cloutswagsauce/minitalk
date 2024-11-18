@@ -6,7 +6,7 @@
 /*   By: lfaria-m <lfaria-m@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:41:25 by lfaria-m          #+#    #+#             */
-/*   Updated: 2024/11/17 11:33:21 by lfaria-m         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:17:44 by lfaria-m         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,20 +16,27 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static char	c;
 	static int	bit_pos;
+	pid_t		sender_pid;
 
 	(void)(context);
 	(void)(info);
+	sender_pid = info->si_pid;
 	c |= (sig == SIGUSR2) << (7 - bit_pos);
 	bit_pos++;
 	if (bit_pos == 8)
 	{
 		if (c == '\0')
+		{
 			write(1, "\n", 1);
+			kill(sender_pid, SIGUSR1);
+		}
+			
 		else
 			write(1, &c, 1);
 		c = 0;
 		bit_pos = 0;
 	}
+	
 }
 
 int	main(void)

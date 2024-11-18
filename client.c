@@ -6,7 +6,7 @@
 /*   By: lfaria-m <lfaria-m@42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:41:22 by lfaria-m          #+#    #+#             */
-/*   Updated: 2024/11/17 11:32:03 by lfaria-m         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:19:53 by lfaria-m         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,6 +16,12 @@
 #include <signal.h>
 #include <stdlib.h>
 
+void received_messaged(int sig)
+{
+	if (sig)
+		write(1, "message received by server!", 27);
+	
+}
 void	str_to_bin(char *str, int pid)
 {
 	int		i;
@@ -44,7 +50,12 @@ void	str_to_bin(char *str, int pid)
 
 int	main(int argc, char **argv)
 {
-	int	server_pid;
+	//struct sigaction	s_action;
+	int					server_pid;
+
+	//ft_memset(&s_action, 0, sizeof(s_action));
+	//s_action.sa_sigaction = received_messaged;
+	signal(SIGUSR1, received_messaged);
 
 	if (argc != 3)
 	{
